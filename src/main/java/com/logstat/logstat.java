@@ -3,19 +3,14 @@ import java.util.*;
 import java.text.*;
 import java.io.*;
 
-
-
 public class logstat {
-
 
     public static void main(String []args) throws IOException, ParseException {
 
-
         int i,d,n,iFile;
 
-
         // выбор интервала (1=часы, !1=минуты)
-        int interval = 2; 
+        int interval = 1; 
     
         // каким-то образом нам предоставляется список логов
         String[] paths = {
@@ -23,6 +18,9 @@ public class logstat {
              "log_02.txt",
              "log_03.txt"
         };
+	   
+	// файл результата    
+        String outpath = "logstat.txt";
         
         
         ArrayList tms = new ArrayList();  // список временных меток
@@ -31,7 +29,7 @@ public class logstat {
 
         
         // пробегаемся по файлам и выписываем ошибки в общий список
-        for    (iFile = 0; iFile < paths.length; iFile++){
+        for (iFile = 0; iFile < paths.length; iFile++){
             
             
             File file = new File(paths[iFile]);
@@ -42,7 +40,7 @@ public class logstat {
             while (true) {
                 String line = reader.readLine(); 
                 if (line == null) break;         
-				if (line.trim() == "") continue;          // пустая строка - пропускаем
+                if (line.trim() == "") continue;          // пустая строка - пропускаем
                 String[] parts = line.split(";");         
                 if (parts.length < 3) continue;           // некорректная строка лога - пропускаем
                 if (!parts[1].trim().equals("ERROR") ) continue; // тип записи не ERROR - пропускаем            				
@@ -81,7 +79,7 @@ public class logstat {
         Collections.sort(srt);
 
         // выводим записи 
-        FileWriter writer = new FileWriter("logstat.txt", false);
+        FileWriter writer = new FileWriter(outpath, false);
         SimpleDateFormat df2 = new SimpleDateFormat("yyyy.MM.dd;  HH:mm:ss"); // парсер даты создаем вне цикла
 
 		
